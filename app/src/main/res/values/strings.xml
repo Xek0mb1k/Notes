@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Notes</string>
-    <string name="author_name">Developed by Akopyan Oganes RIBO–03–22</string>
+    <string name="about_author">Developed by Akopyan Oganes RIBO–03–22</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="sign_in">Sign in</string>
+    <string name="welcome">Welcome</string>
 </resources>
