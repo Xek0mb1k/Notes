@@ -1,4 +1,9 @@
 package com.mirea.kt.ribo.notes.domain.note
 
-class GetNoteUseCase {
+import com.mirea.kt.ribo.notes.domain.NotesRepository
+
+class GetNoteUseCase(private val notesRepository: NotesRepository) {
+    fun getNote(id: Int): NoteItem {
+        return notesRepository.getNote(id)
+    }
 }
