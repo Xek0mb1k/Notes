@@ -1,5 +1,6 @@
 package com.mirea.kt.ribo.notes.data
 
+import android.content.Context
 import android.util.Log
 import com.mirea.kt.ribo.notes.domain.NotesRepository
 import com.mirea.kt.ribo.notes.domain.note.NoteItem
@@ -7,8 +8,8 @@ import com.mirea.kt.ribo.notes.domain.notebook.NotebookItem
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class NotesRepositoryImpl : NotesRepository {
-
+class NotesRepositoryImpl(context: Context) : NotesRepository {
+    val dbHelper = NoteDatabaseHelper(context)
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("https://android-for-students.ru/")
         .addConverterFactory(GsonConverterFactory.create())
@@ -25,15 +26,18 @@ class NotesRepositoryImpl : NotesRepository {
     }
 
     override fun addNote(noteItem: NoteItem) {
-        TODO("Not yet implemented")
+        dbHelper.addNote(
+            noteItem
+        )
+        TODO("IMPLEMENT MORE OBJECTS (Image, Timer and other)")
     }
 
     override fun deleteNote(id: Int) {
-        TODO("Not yet implemented")
+        dbHelper.deleteNote(id)
     }
 
     override fun editNote(noteItem: NoteItem) {
-        TODO("Not yet implemented")
+        dbHelper.editNote(noteItem)
     }
 
     override fun getNote(id: Int): NoteItem {
