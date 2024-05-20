@@ -12,6 +12,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 class NotesRepositoryImpl(private val context: Context) : NotesRepository {
     private val dbHelper = NoteDatabaseHelper(context)
     private val retrofit: Retrofit = Retrofit.Builder()
@@ -23,10 +24,13 @@ class NotesRepositoryImpl(private val context: Context) : NotesRepository {
 
     override suspend fun getTask(login: String, password: String, studentGroup: String): Task {
 
+        val params: MutableMap<String, String> = HashMap()
+        params["lgn"] = login
+        params["pwd"] = password
+        params["g"] = studentGroup
 
-        val bodyData = BodyData(login, password, studentGroup)
-        val call: Call<Task> = mireaApi.getTask(bodyData)
-        var task = Task("", "", emptyList (), -1, -1)
+        val call: Call<Task> = mireaApi.getTask(params)
+        var task = Task(emptyList (), -1, "", "", -1)
         call.enqueue(object : Callback<Task> {
             override fun onResponse(call: Call<Task>, response: Response<Task>) {
                 if (response.isSuccessful) {
@@ -35,14 +39,14 @@ class NotesRepositoryImpl(private val context: Context) : NotesRepository {
                     // Обработка результата
                 } else {
                     Log.d("DEBUG_TASK", "ERROR ${response.body()}")
-
+                    TODO("implement error handling")
 
                 }
             }
 
             override fun onFailure(call: Call<Task>, t: Throwable) {
-                // Обработка ошибки
                 Log.e("DEBUG_TASK", "Error sending after sending this data: $login $password")
+                TODO("implement error handling")
             }
         })
         return task
