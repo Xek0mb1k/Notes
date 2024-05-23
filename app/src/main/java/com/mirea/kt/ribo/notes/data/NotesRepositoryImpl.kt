@@ -36,17 +36,13 @@ class NotesRepositoryImpl(private val context: Context) : NotesRepository {
                 if (response.isSuccessful) {
                     Log.d("DEBUG_DATABASE", "SUCCESSFUL ${response.body()}")
                     task = response.body()!!
-                    // TODO() Обработка результата
                 } else {
                     Log.d("DEBUG_DATABASE", "ERROR ${response.body()}")
-                    TODO("implement error handling")
-
                 }
             }
 
             override fun onFailure(call: Call<Task>, t: Throwable) {
                 Log.e("DEBUG_DATABASE", "Error sending after sending this data: $login $password")
-                TODO("implement error handling")
             }
         })
         return task

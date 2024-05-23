@@ -1,7 +1,10 @@
 package com.mirea.kt.ribo.notes.presentation
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mirea.kt.ribo.notes.databinding.ActivityLoginBinding
 import kotlinx.coroutines.CoroutineScope
@@ -23,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
             Log.d(
                 "DEBUG_TASK", "BUTTON CLICKED"
             )
+
             CoroutineScope(Dispatchers.IO).launch {
 
                 val task = vm.getStudentTask(
@@ -35,6 +39,8 @@ class LoginActivity : AppCompatActivity() {
                     Log.d(
                         "DEBUG_TASK", task.task
                     )
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }

@@ -71,7 +71,7 @@ class DBManager(private val sqLiteHelper: SQLiteOpenHelper) {
 
     fun getNote(id: Int): NoteItem {
         val db = sqLiteHelper.readableDatabase
-        var noteItem: NoteItem =
+        var noteItem =
             NoteItem(-1, "", "", Bitmap.createBitmap(0, 0, Bitmap.Config.ARGB_8888), -1, -1, -1)
 
         val selection = "$COLUMN_NOTE_ID = ?"
@@ -158,6 +158,7 @@ class DBManager(private val sqLiteHelper: SQLiteOpenHelper) {
                 val notebookId = dbCursor.getInt(
                     dbCursor.getColumnIndexOrThrow(COLUMN_NOTEBOOK_ID)
                 )
+
                 notes.add(
                     NoteItem(
                         id,
@@ -175,6 +176,7 @@ class DBManager(private val sqLiteHelper: SQLiteOpenHelper) {
         db.close()
         return notes
     }
+
 
     fun addNotebook(notebookItem: NotebookItem) {
         val db = sqLiteHelper.writableDatabase
