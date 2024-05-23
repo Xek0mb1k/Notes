@@ -1,21 +1,43 @@
 package com.mirea.kt.ribo.notes.presentation
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.mirea.kt.ribo.notes.R
+import com.mirea.kt.ribo.notes.databinding.ActivityLoginBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
+
+    private val vm by viewModel<MainViewModel>()
+    private lateinit var binding: ActivityLoginBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_login)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.signInButton.setOnClickListener {
+            Log.d(
+                "DEBUG_TASK", "BUTTON CLICKED"
+            )
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val task = vm.getStudentTask(
+                    "Student52644",
+                    "wN5B8yN",
+                    "RIBO-03-22"
+                )
+
+                runOnUiThread {
+                    Log.d(
+                        "DEBUG_TASK", task.task
+                    )
+                }
+            }
         }
+
     }
 }
