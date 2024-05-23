@@ -5,5 +5,5 @@ import android.graphics.Color
 data class NotebookItem(
     val id: Int,
     val title: String,
-    val color: Color
+    val color: Int
 )

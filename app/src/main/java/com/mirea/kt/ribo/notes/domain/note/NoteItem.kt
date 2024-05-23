@@ -1,13 +1,13 @@
 package com.mirea.kt.ribo.notes.domain.note
 
-import android.graphics.Color
+import android.graphics.Bitmap
 
 data class NoteItem(
     val id: Int,
     val title: String,
     val body: String,
-    val image: Int,
+    val image: Bitmap,
     val remindTime: Int,
-    val color: Color,
+    val color: Int,
     val notebookId: Int
 )

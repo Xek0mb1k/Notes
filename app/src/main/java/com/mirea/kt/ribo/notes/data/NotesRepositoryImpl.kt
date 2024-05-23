@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class NotesRepositoryImpl(private val context: Context) : NotesRepository {
-    private val dbHelper = NoteDatabaseHelper(context)
+    private val dbManager = DBManager(NoteDatabaseHelper(context))
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("https://android-for-students.ru/")
         .addConverterFactory(GsonConverterFactory.create())
@@ -30,22 +30,22 @@ class NotesRepositoryImpl(private val context: Context) : NotesRepository {
         params["g"] = studentGroup
 
         val call: Call<Task> = mireaApi.getTask(params)
-        var task = Task(emptyList (), -1, "", "", -1)
+        var task = Task(emptyList(), -1, "", "", -1)
         call.enqueue(object : Callback<Task> {
             override fun onResponse(call: Call<Task>, response: Response<Task>) {
                 if (response.isSuccessful) {
-                    Log.d("DEBUG_TASK", "SUCCESSFUL ${response.body()}")
+                    Log.d("DEBUG_DATABASE", "SUCCESSFUL ${response.body()}")
                     task = response.body()!!
-                    // Обработка результата
+                    // TODO() Обработка результата
                 } else {
-                    Log.d("DEBUG_TASK", "ERROR ${response.body()}")
+                    Log.d("DEBUG_DATABASE", "ERROR ${response.body()}")
                     TODO("implement error handling")
 
                 }
             }
 
             override fun onFailure(call: Call<Task>, t: Throwable) {
-                Log.e("DEBUG_TASK", "Error sending after sending this data: $login $password")
+                Log.e("DEBUG_DATABASE", "Error sending after sending this data: $login $password")
                 TODO("implement error handling")
             }
         })
@@ -53,46 +53,43 @@ class NotesRepositoryImpl(private val context: Context) : NotesRepository {
     }
 
     override fun addNote(noteItem: NoteItem) {
-        dbHelper.addNote(
-            noteItem
-        )
-        TODO("IMPLEMENT MORE OBJECTS (Image, Timer and other)")
+        dbManager.addNote(noteItem)
     }
 
     override fun deleteNote(id: Int) {
-        dbHelper.deleteNote(id)
+        dbManager.deleteNote(id)
     }
 
     override fun editNote(noteItem: NoteItem) {
-        dbHelper.editNote(noteItem)
+        dbManager.editNote(noteItem)
     }
 
     override fun getNote(id: Int): NoteItem {
-        TODO("Not yet implemented")
+        return dbManager.getNote(id)
     }
 
     override fun getNotesList(): List<NoteItem> {
-        TODO("Not yet implemented")
+        return dbManager.getAllNotesFromDatabase()
     }
 
 
     override fun addNotebook(notebookItem: NotebookItem) {
-        TODO("Not yet implemented")
+        dbManager.addNotebook(notebookItem)
     }
 
     override fun deleteNotebook(notebookId: Int) {
-        TODO("Not yet implemented")
+        dbManager.deleteNotebook(notebookId)
     }
 
     override fun editNotebook(notebookItem: NotebookItem) {
-        TODO("Not yet implemented")
+        dbManager.editNotebook(notebookItem)
     }
 
     override fun getNotebookList(): List<NotebookItem> {
-        TODO("Not yet implemented")
+        return dbManager.getNotebookList()
     }
 
     override fun getNotesListFromNotebook(id: Int): List<NoteItem> {
-        TODO("Not yet implemented")
+        return dbManager.getNotesListFromNotebook(id)
     }
 }
