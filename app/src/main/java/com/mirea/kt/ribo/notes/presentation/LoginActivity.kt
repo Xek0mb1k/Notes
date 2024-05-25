@@ -1,10 +1,8 @@
 package com.mirea.kt.ribo.notes.presentation
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mirea.kt.ribo.notes.databinding.ActivityLoginBinding
 import kotlinx.coroutines.CoroutineScope
@@ -21,6 +19,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar!!.hide();
 
         binding.signInButton.setOnClickListener {
             Log.d(

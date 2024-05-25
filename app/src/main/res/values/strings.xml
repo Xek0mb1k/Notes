@@ -5,4 +5,19 @@
     <string name="login">Login</string>
     <string name="sign_in">Sign in</string>
     <string name="welcome">Welcome</string>
+    <string name="search">Search</string>
+    <string name="view_type">Grid view</string>
+    <string name="sort_by">Sort by time created</string>
+    <string name="settings">Settings</string>
+    <string name="add_note">Add note</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="to_back">To Back</string>
+    <string name="title">Title</string>
+    <string name="type_something">Type something...</string>
+    <string name="pin_this_note">pin this note</string>
+    <string name="add_image_to_note">add image to note</string>
+    <string name="more_options">more options</string>
+    <string name="add_checkbox">add checkbox</string>
+
 </resources>

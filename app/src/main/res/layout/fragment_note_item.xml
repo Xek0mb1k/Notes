@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+    tools:context=".presentation.NoteItemFragment">
+
+    <Toolbar
+        android:id="@+id/note_item_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="start"
+            android:contentDescription="@string/to_back"
+            android:src="@drawable/arrow_back"
+            app:tint="@color/black" />
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+
+            android:layout_gravity="end"
+            android:contentDescription="@string/pin_this_note"
+
+            android:scaleType="fitXY"
+            android:src="@drawable/filled_push_pin_24"
+            app:tint="@color/black" />
+
+    </Toolbar>
+
+
+    <LinearLayout
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_note_item_tool_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/note_item_tool_bar">
+
+        <EditText
+            android:id="@+id/title_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:autofillHints=""
+android:background="Null"
+            android:hint="@string/title"
+            android:inputType="text"
+            android:textSize="48sp"
+
+            />
+
+        <EditText
+            android:id="@+id/body_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:autofillHints=""
+            android:gravity="start"
+android:background="Null"
+            android:hint="@string/type_something"
+            android:inputType="text"
+            android:textSize="22sp"
+            android:layout_weight="1"
+
+            />
+    </LinearLayout>
+
+
+    <Toolbar
+        android:id="@+id/bottom_note_item_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/add_image_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-5dp"
+            android:layout_gravity="start"
+
+            android:contentDescription="@string/add_image_to_note"
+            android:src="@drawable/outline_image_24"
+            app:tint="@color/black" />
+
+        <ImageButton
+            android:id="@+id/more_actions_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+
+            android:layout_gravity="end"
+            android:contentDescription="@string/more_options"
+
+            android:scaleType="center"
+            android:src="@drawable/baseline_more_vert"
+            app:tint="@color/black" />
+
+        <ImageButton
+            android:id="@+id/add_checkbox_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+
+            android:layout_gravity="start"
+            android:contentDescription="@string/add_checkbox"
+
+            android:scaleType="center"
+            android:src="@drawable/outline_check_box_24"
+            app:tint="@color/black" />
+
+    </Toolbar>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
