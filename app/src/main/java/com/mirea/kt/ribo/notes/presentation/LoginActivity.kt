@@ -26,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
                 "DEBUG_TASK", "BUTTON CLICKED"
             )
 
+
             CoroutineScope(Dispatchers.IO).launch {
 
                 val task = vm.getStudentTask(

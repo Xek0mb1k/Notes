@@ -17,6 +17,10 @@
         android:theme="@style/Theme.Notes"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.NoteItemActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".presentation.LoginActivity"
             android:exported="true">
             <intent-filter>

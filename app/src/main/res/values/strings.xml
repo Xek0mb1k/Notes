@@ -19,5 +19,7 @@
     <string name="add_image_to_note">add image to note</string>
     <string name="more_options">more options</string>
     <string name="add_checkbox">add checkbox</string>
+    <string name="body">body</string>
+    <string name="note_image">Note image</string>
 
 </resources>

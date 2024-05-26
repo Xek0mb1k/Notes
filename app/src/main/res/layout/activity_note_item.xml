@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/note_item_container"
     android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    android:layout_height="match_parent"
-    tools:context=".presentation.NoteItemFragment">
-
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/note_item_tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,15 +13,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <ImageButton
+            android:id="@+id/done_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_gravity="start"
-            android:contentDescription="@string/to_back"
-            android:src="@drawable/arrow_back"
+            android:layout_gravity="end"
+            android:contentDescription="@string/pin_this_note"
+            android:scaleType="fitXY"
+
+            android:src="@drawable/baseline_done_24"
+            android:visibility="gone"
             app:tint="@color/black" />
 
         <ImageButton
+            android:id="@+id/pin_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
 
@@ -34,15 +38,16 @@
             android:src="@drawable/filled_push_pin_24"
             app:tint="@color/black" />
 
-    </Toolbar>
+
+    </androidx.appcompat.widget.Toolbar>
 
 
     <LinearLayout
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/bottom_note_item_tool_bar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +60,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:autofillHints=""
-android:background="Null"
             android:hint="@string/title"
             android:inputType="text"
             android:textSize="48sp"
@@ -66,13 +70,12 @@ android:background="Null"
             android:id="@+id/body_edit_text"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="1"
             android:autofillHints=""
             android:gravity="start"
-android:background="Null"
             android:hint="@string/type_something"
             android:inputType="text"
             android:textSize="22sp"
-            android:layout_weight="1"
 
             />
     </LinearLayout>
@@ -91,8 +94,8 @@ android:background="Null"
             android:id="@+id/add_image_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginStart="-5dp"
             android:layout_gravity="start"
+            android:layout_marginStart="-5dp"
 
             android:contentDescription="@string/add_image_to_note"
             android:src="@drawable/outline_image_24"

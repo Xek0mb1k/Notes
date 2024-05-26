@@ -6,15 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.MainActivity">
+
+
+<!--    <include-->
+<!--        android:id="@+id/include"-->
+<!--        layout="@layout/toolbar" />-->
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_note_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:paddingStart="0dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+
+
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="" />
+        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:listitem="@layout/item_note_with_image"
+        tools:spanCount="2" />
 
 
 
