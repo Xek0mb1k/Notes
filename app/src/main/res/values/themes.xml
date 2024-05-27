@@ -3,7 +3,32 @@
     <style name="Base.Theme.Notes" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryVariant">@color/purple</item>
+
+
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorSecondaryVariant">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:textColor">@color/black</item>
+        <!-- Customize your theme here. -->
+
+        <item name="rippleColor" >#68000000</item>
+
+
+
+
     </style>
 
     <style name="Theme.Notes" parent="Base.Theme.Notes" />
+
+
+
+
 </resources>

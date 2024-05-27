@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        showDialog()
         setupRecyclerView()
 
         noteListAdapter.submitList(vm.getNoteList())
@@ -105,6 +106,18 @@ class MainActivity : AppCompatActivity() {
         noteListAdapter.onNoteItemClickListener = {
             val intent = NoteItemActivity.newIntentEditItem(this, it.id)
             startActivity(intent)
+        }
+    }
+
+    private fun showDialog(){
+        if (intent.hasExtra("TITLE") && intent.hasExtra("BODY")) {
+            val title = intent.getStringExtra("TITLE")
+            val body = intent.getStringExtra("BODY")
+            AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(body)
+                .setPositiveButton("OK") { _, _ -> }
+                .show()
         }
     }
 

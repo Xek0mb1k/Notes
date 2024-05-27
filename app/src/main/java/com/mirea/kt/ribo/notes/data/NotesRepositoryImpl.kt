@@ -11,6 +11,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 
 class NotesRepositoryImpl(private val context: Context) : NotesRepository {
@@ -31,21 +33,25 @@ class NotesRepositoryImpl(private val context: Context) : NotesRepository {
 
         val call: Call<Task> = mireaApi.getTask(params)
         var task = Task(emptyList(), -1, "", "", -1)
-        call.enqueue(object : Callback<Task> {
-            override fun onResponse(call: Call<Task>, response: Response<Task>) {
-                if (response.isSuccessful) {
-                    Log.d("DEBUG_DATABASE", "SUCCESSFUL ${response.body()}")
-                    task = response.body()!!
-                } else {
-                    Log.d("DEBUG_DATABASE", "ERROR ${response.body()}")
-                }
-            }
 
-            override fun onFailure(call: Call<Task>, t: Throwable) {
-                Log.e("DEBUG_DATABASE", "Error sending after sending this data: $login $password")
-            }
-        })
-        return task
+        return suspendCoroutine {
+            call.enqueue(object : Callback<Task> {
+                override fun onResponse(call: Call<Task>, response: Response<Task>) {
+                    if (response.isSuccessful) {
+                        Log.d("DEBUG_REQUEST", "SUCCESSFUL ${response.body()}")
+                        it.resume(response.body()!!)
+                    } else {
+                        Log.d("DEBUG_REQUEST", "ERROR ${response.body()}")
+                        it.resume(task)
+                    }
+                }
+
+                override fun onFailure(call: Call<Task>, t: Throwable) {
+                    Log.e("DEBUG_REQUEST", "Error sending after sending this data: $login $password")
+                    it.resume(task)
+                }
+            })
+        }
     }
 
     override fun addNote(noteItem: NoteItem) {

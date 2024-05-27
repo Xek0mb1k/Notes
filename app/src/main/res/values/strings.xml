@@ -21,5 +21,6 @@
     <string name="add_checkbox">add checkbox</string>
     <string name="body">body</string>
     <string name="note_image">Note image</string>
+    <string name="error_message">That login and password combination is incorrect.</string>
 
 </resources>

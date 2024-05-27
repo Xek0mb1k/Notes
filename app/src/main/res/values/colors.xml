@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="errorTextColor">#FF3434</color>
+    <color name="transparent_color">#00000000</color>
+    <color name="gray">#4B4B4B</color>
+    <color name="gray_200">#1C1C1C</color>
+    <color name="gray_300">#353535</color>
+    <color name="gray_400">#505050</color>
+    <color name="gray_500">#6C6C6C</color>
+
+    <color name="purple">#7339BD</color>
 </resources>
