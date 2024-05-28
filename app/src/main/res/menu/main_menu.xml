@@ -3,18 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-
     <item
-        android:id="@+id/search_button"
-        android:title="@android:string/search_go"
+        android:id="@+id/search_view_items"
         android:icon="@drawable/search"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+        android:title="@android:string/search_go"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="collapseActionView|ifRoom" />
 
     <item
         android:id="@+id/change_sorting"
         android:title="@string/sort_by"
-        app:showAsAction="withText"/>
+        app:showAsAction="withText" />
     <item
         android:id="@+id/change_type_of_view"
         android:title="@string/view_type"
@@ -22,13 +21,6 @@
     <item
         android:id="@+id/settings"
         android:title="@string/settings"
-        app:showAsAction="withText"/>
-
-
-    <item
-        android:id="@+id/action_pin"
-        android:title=""
-        android:icon="@drawable/outline_push_pin_24"
-        app:showAsAction="always" />
+        app:showAsAction="withText" />
 
 </menu>

@@ -1,14 +1,16 @@
 package com.mirea.kt.ribo.notes.presentation
 
-import android.content.Intent
+
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Toast
+import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -18,7 +20,8 @@ import com.mirea.kt.ribo.notes.R
 import com.mirea.kt.ribo.notes.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private val vm by viewModel<MainViewModel>()
     private lateinit var noteListAdapter: NoteListAdapter
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         showDialog()
         setupRecyclerView()
 
@@ -38,16 +42,18 @@ class MainActivity : AppCompatActivity() {
 
         val buttonAddItem = binding.fabAdd
         buttonAddItem.setOnClickListener {
-                val intent = NoteItemActivity.newIntentAddItem(this)
-                startActivity(intent)
+            val intent = NoteItemActivity.newIntentAddItem(this)
+            startActivity(intent)
         }
 
     }
 
-    private fun isOnePaneMode(): Boolean{
+
+    private fun isOnePaneMode(): Boolean {
         return noteItemContainer == null
     }
-    private fun launchFragment(fragment: Fragment){
+
+    private fun launchFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack()
         supportFragmentManager.beginTransaction()
             .replace(R.id.note_item_container, fragment)
@@ -109,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showDialog(){
+    private fun showDialog() {
         if (intent.hasExtra("TITLE") && intent.hasExtra("BODY")) {
             val title = intent.getStringExtra("TITLE")
             val body = intent.getStringExtra("BODY")
@@ -121,13 +127,82 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.main_menu, menu)
-        return true
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        val searchItem = menu.findItem(R.id.search_view_items)
+        val searchView = searchItem.actionView as android.widget.SearchView
+
+        val searchCloseButtonId =
+            searchView.findViewById<View>(androidx.appcompat.R.id.search_close_btn).id
+        val closeButton = searchView.findViewById<ImageView>(searchCloseButtonId)
+        closeButton.setOnClickListener {
+            searchView.setQuery("", false)
+            searchView.clearFocus()
+            Log.d("DEBUG_MENU", "CLOSED SEARCH")
+
+        }
+        // Detect SearchView icon clicks
+        searchView.setOnSearchClickListener {
+            Log.d("DEBUG_MENU", "PRESSED SEARCH")
+            setItemsVisibility(
+                menu,
+                searchItem,
+                false
+            )
+        }
+
+        // Detect SearchView close
+        searchView.setOnCloseListener {
+            setItemsVisibility(menu, searchItem, true)
+            false
+        }
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun setItemsVisibility(menu: Menu, exception: MenuItem, visible: Boolean) {
+        for (i in 0 until menu.size()) {
+            val item = menu.getItem(i)
+            if (item !== exception) item.setVisible(visible)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return super.onOptionsItemSelected(item)
+
+        return when (item.itemId) {
+//            R.id.search_view_items -> {
+//                Log.d("DEBUG_MENU", "SEARCH_BUTTON Pressed")
+//                val otherItem: MenuItem = findViewById(R.id.settings)
+//                otherItem.setVisible(false)
+//                val otherItem2: MenuItem = findViewById(R.id.change_type_of_view)
+//                otherItem2.setVisible(false)
+//                val otherItem3: MenuItem = findViewById(R.id.change_sorting)
+//                otherItem3.setVisible(false)
+//
+//
+//                // Return true if you wish to expand the action view, false otherwise
+//                true
+//            }
+
+//            R.id.settings -> {
+//                Log.d("DEBUG_MENU", "Settings pressed")
+//                true
+//            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        Log.d("DEBUG_MENU", query.toString())
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        Log.d("DEBUG_MENU", newText.toString())
+        return true
     }
 }

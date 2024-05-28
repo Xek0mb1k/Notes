@@ -3,11 +3,14 @@ package com.mirea.kt.ribo.notes.presentation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.text.InputType
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import com.mirea.kt.ribo.notes.databinding.ActivityNoteItemBinding
 import com.mirea.kt.ribo.notes.domain.note.NoteItem
@@ -28,32 +31,60 @@ class NoteItemActivity : AppCompatActivity() {
         parseActivity()
         setEditTextListeners()
 
-            binding.doneButton.setOnClickListener {
-                if (screenMode == MODE_ADD) {
-                    vm.addNote(
-                        NoteItem(
-                            title = binding.titleEditText.text.toString(),
-                            body = binding.bodyEditText.text.toString()
-                        )
-                    )
-                    Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-                } else if ((screenMode == MODE_EDIT)) {
-                    vm.editNote(
-                        NoteItem(
-                            id = noteItemId,
-                            title = binding.titleEditText.text.toString(),
-                            body = binding.bodyEditText.text.toString()
-                        )
-                    )
-                    Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-                }
-                finish()
-            }
+        setEditText()
 
+        binding.shareButton.setOnClickListener {
+            shareContent()
+        }
 
+        binding.doneButton.setOnClickListener {
+            saveChanged()
+        }
 
     }
 
+    private fun saveChanged() {
+        if (screenMode == MODE_ADD) {
+            vm.addNote(
+                NoteItem(
+                    title = binding.titleEditText.text.toString(),
+                    body = binding.bodyEditText.text.toString()
+                )
+            )
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+        } else if ((screenMode == MODE_EDIT)) {
+            vm.editNote(
+                NoteItem(
+                    id = noteItemId,
+                    title = binding.titleEditText.text.toString(),
+                    body = binding.bodyEditText.text.toString()
+                )
+            )
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+        }
+        finish()
+    }
+
+    private fun shareContent() {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TITLE, binding.titleEditText.text)
+            putExtra(Intent.EXTRA_TEXT, binding.bodyEditText.text)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
+    }
+
+    private fun setEditText() {
+        val titleET = binding.titleEditText
+        titleET.requestFocus()
+        titleET.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        titleET.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        WindowCompat.getInsetsController(window, binding.titleEditText)
+            .show(WindowInsetsCompat.Type.ime())
+    }
 
 
     private fun parseIntent() {
@@ -95,8 +126,11 @@ class NoteItemActivity : AppCompatActivity() {
             titleEditText.addTextChangedListener {
                 if (binding.titleEditText.text.toString() != "" || binding.bodyEditText.text.toString() != "") {
                     doneButton.visibility = View.VISIBLE
+                    shareButton.visibility = View.VISIBLE
+
                 } else {
                     doneButton.visibility = View.GONE
+                    shareButton.visibility = View.GONE
                 }
             }
 
@@ -104,8 +138,11 @@ class NoteItemActivity : AppCompatActivity() {
             bodyEditText.addTextChangedListener {
                 if (binding.titleEditText.text.toString() != "" || binding.bodyEditText.text.toString() != "") {
                     doneButton.visibility = View.VISIBLE
+                    shareButton.visibility = View.VISIBLE
+
                 } else {
                     doneButton.visibility = View.GONE
+                    shareButton.visibility = View.GONE
                 }
             }
         }

@@ -8,6 +8,7 @@
     android:layout_marginTop="0dp"
 
     android:layout_marginBottom="8dp"
+    android:layout_marginEnd="8dp"
     android:elevation="16dp"
 
     app:cardCornerRadius="10dp"
@@ -19,6 +20,7 @@
         android:background="#C9AAF1"
         android:orientation="vertical"
         android:padding="16dp">
+
 
         <TextView
             android:id="@+id/tv_title"

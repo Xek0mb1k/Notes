@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/note_item_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,75 +17,96 @@
 
         <ImageButton
             android:id="@+id/done_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
             android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/back_from_image_button"
             android:contentDescription="@string/pin_this_note"
             android:scaleType="fitXY"
-
             android:src="@drawable/baseline_done_24"
             android:visibility="gone"
             app:tint="@color/black" />
 
         <ImageButton
-            android:id="@+id/pin_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:id="@+id/share_button"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
 
             android:layout_gravity="end"
+            android:layout_margin="10dp"
+            android:background="@drawable/back_from_image_button"
             android:contentDescription="@string/pin_this_note"
-
             android:scaleType="fitXY"
-            android:src="@drawable/filled_push_pin_24"
-            app:tint="@color/black" />
+            android:src="@drawable/baseline_share_24"
+            tools:ignore="TouchTargetSizeCheck"
+            tools:layout_editor_absoluteX="378dp"
+            tools:layout_editor_absoluteY="15dp" />
 
 
     </androidx.appcompat.widget.Toolbar>
 
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/bottom_note_item_tool_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/note_item_tool_bar">
 
-        <EditText
-            android:id="@+id/title_edit_text"
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:autofillHints=""
-            android:hint="@string/title"
-            android:inputType="text"
-            android:textSize="48sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="vertical">
 
-            />
+            <EditText
+                android:id="@+id/title_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:autofillHints=""
+                android:background="#00000000"
+                android:focusableInTouchMode="true"
+                android:gravity="top"
+                android:hint="@string/title"
+                android:inputType="textMultiLine"
+                android:textCursorDrawable="@drawable/cursor_drawable"
+                android:textSize="48sp"
 
-        <EditText
-            android:id="@+id/body_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:autofillHints=""
-            android:gravity="start"
-            android:hint="@string/type_something"
-            android:inputType="text"
-            android:textSize="22sp"
+                />
 
-            />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/body_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:background="#00000000"
+                android:cursorVisible="true"
+                android:gravity="start"
+                android:hint="@string/type_something"
+                android:inputType="text|textMultiLine"
+                android:minHeight="300dp"
+                android:textCursorDrawable="@drawable/cursor_drawable"
+
+                android:textSize="22sp" />
 
 
-    <Toolbar
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <LinearLayout
         android:id="@+id/bottom_note_item_tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -95,37 +117,38 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="start"
-            android:layout_marginStart="-5dp"
-
+            android:layout_marginStart="5dp"
             android:contentDescription="@string/add_image_to_note"
+
             android:src="@drawable/outline_image_24"
+            android:visibility="invisible"
             app:tint="@color/black" />
 
         <ImageButton
             android:id="@+id/more_actions_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
-
             android:layout_gravity="end"
             android:contentDescription="@string/more_options"
-
             android:scaleType="center"
+
             android:src="@drawable/baseline_more_vert"
+            android:visibility="gone"
             app:tint="@color/black" />
 
         <ImageButton
             android:id="@+id/add_checkbox_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
-
             android:layout_gravity="start"
             android:contentDescription="@string/add_checkbox"
-
             android:scaleType="center"
+
             android:src="@drawable/outline_check_box_24"
+            android:visibility="invisible"
             app:tint="@color/black" />
 
-    </Toolbar>
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
