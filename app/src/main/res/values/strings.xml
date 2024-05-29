@@ -5,4 +5,30 @@
     <string name="login">Login</string>
     <string name="sign_in">Sign in</string>
     <string name="welcome">Welcome</string>
+    <string name="search">Search</string>
+    <string name="view_type">Grid view</string>
+    <string name="sort_by">Sort by time created</string>
+    <string name="settings">Settings</string>
+    <string name="add_note">Add note</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="to_back">To Back</string>
+    <string name="title">Title</string>
+    <string name="type_something">Type something…</string>
+    <string name="pin_this_note">pin this note</string>
+    <string name="add_image_to_note">add image to note</string>
+    <string name="more_options">more options</string>
+    <string name="add_checkbox">add checkbox</string>
+    <string name="body">body</string>
+    <string name="note_image">Note image</string>
+    <string name="error_message">That login and password combination is incorrect.</string>
+    <string name="all_notes">Notes</string>
+    <string name="arrow">arrow</string>
+    <string name="about">About</string>
+    <string name="notes_nversion_1_0">Notes\nVersion 1.0</string>
+    <string name="notes_counter">%1$d Notes</string>
+    <string name="github_button">github button</string>
+    <string name="notes_photo">notes photo</string>
+    <string name="create_your_first_note">Create your first note</string>
+
 </resources>

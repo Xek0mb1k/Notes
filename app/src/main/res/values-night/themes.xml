@@ -1,7 +1,39 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.Notes" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryVariant">#2E164E</item>
+        <item name="colorPrimaryDark">#2E144E</item>
+        <item name="android:textColor">#B2EBF2</item>
+
+
+        <item name="colorAccent">@color/purple</item>
+
+
+
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorSecondaryVariant">@color/black</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
+        <!-- Customize your theme here. -->
+
+        <item name="android:windowContentTransitions">true</item>
+
+
+        <item name="rippleColor" >#68000000</item>
+        <item name="cardBackgroundColor">#252525</item>
+
+        <item name="colorSurface">#53298a</item>
+<item name="android:windowBackground">#121212</item>
+        <item name="colorPrimarySurface">#4C206C</item>
     </style>
 </resources>

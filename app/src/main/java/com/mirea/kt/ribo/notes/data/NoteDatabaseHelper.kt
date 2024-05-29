@@ -46,7 +46,7 @@ class NoteDatabaseHelper(context: Context) :
                 "CREATE TABLE $TABLE_NOTEBOOKS (" +
                         "$COLUMN_NOTEBOOK_ID INTEGER PRIMARY KEY autoincrement, " +
                         "$COLUMN_TITLE TEXT, " +
-                        "$COLUMN_COLOR TEXT, " +
+                        "$COLUMN_COLOR TEXT" +
                         ")"
                 )
         db.execSQL(createNoteTableQuery)

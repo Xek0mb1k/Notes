@@ -25,7 +25,7 @@ class DBManager(private val sqLiteHelper: SQLiteOpenHelper) {
         val db = sqLiteHelper.writableDatabase
 
         val cv = ContentValues()
-        val imageArray = getBitmapAsByteArray(noteItem.image)
+        val imageArray = noteItem.image?.let { getBitmapAsByteArray(it) }
 
         cv.put(COLUMN_TITLE, noteItem.title)
         cv.put(COLUMN_BODY, noteItem.body)
@@ -50,7 +50,7 @@ class DBManager(private val sqLiteHelper: SQLiteOpenHelper) {
 
     fun editNote(noteItem: NoteItem) {
         val cv = ContentValues()
-        val imageArray = getBitmapAsByteArray(noteItem.image)
+        val imageArray = noteItem.image?.let { getBitmapAsByteArray(it) }
 
         cv.put(COLUMN_TITLE, noteItem.title)
         cv.put(COLUMN_BODY, noteItem.body)
@@ -71,8 +71,7 @@ class DBManager(private val sqLiteHelper: SQLiteOpenHelper) {
 
     fun getNote(id: Int): NoteItem {
         val db = sqLiteHelper.readableDatabase
-        var noteItem =
-            NoteItem(-1, "", "", Bitmap.createBitmap(0, 0, Bitmap.Config.ARGB_8888), -1, -1, -1)
+        var noteItem = NoteItem()
 
         val selection = "$COLUMN_NOTE_ID = ?"
         val selectionArgs = arrayOf(id.toString())
@@ -105,6 +104,7 @@ class DBManager(private val sqLiteHelper: SQLiteOpenHelper) {
                 cursor.getColumnIndexOrThrow(COLUMN_IMAGE)
             )
             val image = byteToBitmap(imageByteArray)
+
             val remindTime = cursor.getInt(
                 cursor.getColumnIndexOrThrow(COLUMN_REMIND_TIME)
             )
@@ -116,7 +116,13 @@ class DBManager(private val sqLiteHelper: SQLiteOpenHelper) {
             )
 
             noteItem = NoteItem(
-                id, title, body, image, remindTime, color, notebookId
+                id,
+                title,
+                body,
+                image,
+                remindTime,
+                color,
+                notebookId
             )
         }
 
@@ -299,7 +305,11 @@ class DBManager(private val sqLiteHelper: SQLiteOpenHelper) {
         return outputStream.toByteArray()
     }
 
-    private fun byteToBitmap(imgByteArray: ByteArray): Bitmap {
-        return BitmapFactory.decodeByteArray(imgByteArray, 0, imgByteArray.size)
+    private fun byteToBitmap(imgByteArray: ByteArray?): Bitmap? {
+        return if (imgByteArray == null) {
+            null
+        } else {
+            BitmapFactory.decodeByteArray(imgByteArray, 0, imgByteArray.size)
+        }
     }
 }
