@@ -10,39 +10,57 @@
         android:id="@+id/note_item_tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorPrimarySurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageButton
+            android:id="@+id/back_to_home_button"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_gravity="start"
+            android:background="@drawable/back_from_image_button"
+            android:contentDescription="@string/pin_this_note"
+            android:scaleType="fitCenter"
+            android:src="@drawable/arrow_back"
+            app:tint="?attr/colorOnPrimary"
+            tools:ignore="TouchTargetSizeCheck"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="13dp" />
 
         <ImageButton
             android:id="@+id/done_button"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
             android:layout_gravity="end"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
             android:background="@drawable/back_from_image_button"
             android:contentDescription="@string/pin_this_note"
-            android:scaleType="fitXY"
+            android:scaleType="center"
             android:src="@drawable/baseline_done_24"
             android:visibility="gone"
-            app:tint="@color/black" />
+            app:tint="@color/white" />
 
         <ImageButton
             android:id="@+id/share_button"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-
+            android:layout_width="38dp"
+            android:layout_height="38dp"
             android:layout_gravity="end"
-            android:layout_margin="10dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/back_from_image_button"
             android:contentDescription="@string/pin_this_note"
-            android:scaleType="fitXY"
+            android:scaleType="center"
             android:src="@drawable/baseline_share_24"
+            android:visibility="gone"
+            app:tint="@color/white"
             tools:ignore="TouchTargetSizeCheck"
             tools:layout_editor_absoluteX="378dp"
             tools:layout_editor_absoluteY="15dp" />
+
+
 
 
     </androidx.appcompat.widget.Toolbar>
@@ -52,7 +70,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_note_item_tool_bar"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/note_item_tool_bar">
@@ -61,14 +80,28 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
+
             android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="7dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/notes_photo"
+
+                android:maxHeight="750dp"
+                android:scaleType="centerCrop" />
 
             <EditText
                 android:id="@+id/title_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
                 android:autofillHints=""
                 android:background="#00000000"
@@ -76,6 +109,7 @@
                 android:gravity="top"
                 android:hint="@string/title"
                 android:inputType="textMultiLine"
+                android:paddingTop="10dp"
                 android:textCursorDrawable="@drawable/cursor_drawable"
                 android:textSize="48sp"
 
@@ -85,6 +119,8 @@
                 android:id="@+id/body_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:autofillHints=""
                 android:background="#00000000"
                 android:cursorVisible="true"
@@ -100,55 +136,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-
-    <LinearLayout
-        android:id="@+id/bottom_note_item_tool_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageButton
-            android:id="@+id/add_image_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="start"
-            android:layout_marginStart="5dp"
-            android:contentDescription="@string/add_image_to_note"
-
-            android:src="@drawable/outline_image_24"
-            android:visibility="invisible"
-            app:tint="@color/black" />
-
-        <ImageButton
-            android:id="@+id/more_actions_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="end"
-            android:contentDescription="@string/more_options"
-            android:scaleType="center"
-
-            android:src="@drawable/baseline_more_vert"
-            android:visibility="gone"
-            app:tint="@color/black" />
-
-        <ImageButton
-            android:id="@+id/add_checkbox_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="start"
-            android:contentDescription="@string/add_checkbox"
-            android:scaleType="center"
-
-            android:src="@drawable/outline_check_box_24"
-            android:visibility="invisible"
-            app:tint="@color/black" />
-
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

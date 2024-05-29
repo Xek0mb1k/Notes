@@ -1,32 +1,32 @@
 package com.mirea.kt.ribo.notes.presentation
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.mirea.kt.ribo.notes.AboutActivity
 import com.mirea.kt.ribo.notes.R
 import com.mirea.kt.ribo.notes.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
+class MainActivity : AppCompatActivity() {
 
     private val vm by viewModel<MainViewModel>()
     private lateinit var noteListAdapter: NoteListAdapter
     private lateinit var binding: ActivityMainBinding
-    private var noteItemContainer: FragmentContainerView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -34,8 +34,17 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         setContentView(binding.root)
 
 
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        val notebookButton = findViewById<ConstraintLayout>(R.id.notebook_cl)
+        notebookButton.setOnClickListener {
+            Log.d("DEBUG_MENU", "Pressed notebook")
+        }
+
         showDialog()
         setupRecyclerView()
+        setupNotesCounter()
 
         noteListAdapter.submitList(vm.getNoteList())
 
@@ -46,19 +55,21 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             startActivity(intent)
         }
 
+
     }
 
-
-    private fun isOnePaneMode(): Boolean {
-        return noteItemContainer == null
-    }
-
-    private fun launchFragment(fragment: Fragment) {
-        supportFragmentManager.popBackStack()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.note_item_container, fragment)
-            .addToBackStack(null)
-            .commit()
+    private fun setupNotesCounter() {
+        val counter = findViewById<TextView>(R.id.notes_count_text_view)
+        val value = vm.getNoteList().count()
+        val note = getString(R.string.notes_counter, value)
+        if (value == 0) {
+            counter.visibility = View.GONE
+            binding.createFirstNoteTextView.visibility = View.VISIBLE
+        } else {
+            counter.visibility = View.VISIBLE
+            binding.createFirstNoteTextView.visibility = View.GONE
+        }
+        counter.text = note
     }
 
     private fun setupRecyclerView() {
@@ -67,9 +78,16 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             noteListAdapter = NoteListAdapter()
             adapter = noteListAdapter
             layoutManager = LinearLayoutManager(context)
+
             recycledViewPool.setMaxRecycledViews(
                 NoteListAdapter.VIEW_TYPE_NORMAL,
                 NoteListAdapter.MAX_POOL_SIZE
+            )
+            rvNoteList.setLayoutManager(
+                StaggeredGridLayoutManager(
+                    2,
+                    StaggeredGridLayoutManager.VERTICAL
+                )
             )
             recycledViewPool.setMaxRecycledViews(
                 NoteListAdapter.VIEW_TYPE_WITH_IMAGE_NORMAL,
@@ -90,6 +108,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 vm.deleteNote(noteListAdapter.currentList[position].id)
 
                 noteListAdapter.submitList(vm.getNoteList())
+                setupNotesCounter()
 
             }
         }
@@ -105,6 +124,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     override fun onResume() {
         noteListAdapter.submitList(vm.getNoteList())
+        setupNotesCounter()
         super.onResume()
     }
 
@@ -128,81 +148,28 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        menuInflater.inflate(R.menu.main_menu, menu)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val searchItem = menu.findItem(R.id.search_view_items)
-        val searchView = searchItem.actionView as android.widget.SearchView
-
-        val searchCloseButtonId =
-            searchView.findViewById<View>(androidx.appcompat.R.id.search_close_btn).id
-        val closeButton = searchView.findViewById<ImageView>(searchCloseButtonId)
-        closeButton.setOnClickListener {
-            searchView.setQuery("", false)
-            searchView.clearFocus()
-            Log.d("DEBUG_MENU", "CLOSED SEARCH")
-
-        }
-        // Detect SearchView icon clicks
-        searchView.setOnSearchClickListener {
-            Log.d("DEBUG_MENU", "PRESSED SEARCH")
-            setItemsVisibility(
-                menu,
-                searchItem,
-                false
-            )
-        }
-
-        // Detect SearchView close
-        searchView.setOnCloseListener {
-            setItemsVisibility(menu, searchItem, true)
-            false
-        }
-
-        return super.onCreateOptionsMenu(menu)
+        return true
     }
 
-    private fun setItemsVisibility(menu: Menu, exception: MenuItem, visible: Boolean) {
-        for (i in 0 until menu.size()) {
-            val item = menu.getItem(i)
-            if (item !== exception) item.setVisible(visible)
-        }
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.d("DEBUG_MENU", "WORKING")
 
         return when (item.itemId) {
-//            R.id.search_view_items -> {
-//                Log.d("DEBUG_MENU", "SEARCH_BUTTON Pressed")
-//                val otherItem: MenuItem = findViewById(R.id.settings)
-//                otherItem.setVisible(false)
-//                val otherItem2: MenuItem = findViewById(R.id.change_type_of_view)
-//                otherItem2.setVisible(false)
-//                val otherItem3: MenuItem = findViewById(R.id.change_sorting)
-//                otherItem3.setVisible(false)
-//
-//
-//                // Return true if you wish to expand the action view, false otherwise
-//                true
-//            }
+            R.id.about -> {
+                val intent = Intent(this@MainActivity, AboutActivity::class.java)
+                startActivity(intent)
+                Log.d("DEBUG_MENU", "About pressed")
+                true
+            }
 
-//            R.id.settings -> {
-//                Log.d("DEBUG_MENU", "Settings pressed")
-//                true
-//            }
 
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        Log.d("DEBUG_MENU", query.toString())
-        return true
-    }
 
-    override fun onQueryTextChange(newText: String?): Boolean {
-        Log.d("DEBUG_MENU", newText.toString())
-        return true
-    }
 }

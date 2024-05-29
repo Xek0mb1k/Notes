@@ -2,6 +2,7 @@ package com.mirea.kt.ribo.notes.presentation
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -16,9 +17,11 @@ import com.mirea.kt.ribo.notes.databinding.ActivityNoteItemBinding
 import com.mirea.kt.ribo.notes.domain.note.NoteItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class NoteItemActivity : AppCompatActivity() {
     private var screenMode = MODE_UNKNOWN
     private var noteItemId = NoteItem.UNDEFINED_INT
+    private var image: Bitmap? = null
 
     private val vm by viewModel<MainViewModel>()
     private lateinit var binding: ActivityNoteItemBinding
@@ -27,11 +30,19 @@ class NoteItemActivity : AppCompatActivity() {
         Log.d("DEBUG_GG", "ACTIVITY CREATED")
         binding = ActivityNoteItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
         parseIntent()
         parseActivity()
         setEditTextListeners()
 
         setEditText()
+
+        binding.backToHomeButton.setOnClickListener {
+            if (binding.titleEditText.text.toString() != "" || binding.bodyEditText.text.toString() != "") {
+                saveChanged()
+            } else finish()
+        }
 
         binding.shareButton.setOnClickListener {
             shareContent()
@@ -43,45 +54,58 @@ class NoteItemActivity : AppCompatActivity() {
 
     }
 
+
     private fun saveChanged() {
         if (screenMode == MODE_ADD) {
             vm.addNote(
                 NoteItem(
                     title = binding.titleEditText.text.toString(),
-                    body = binding.bodyEditText.text.toString()
+                    body = binding.bodyEditText.text.toString(),
+                    image = image
                 )
             )
-            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show()
         } else if ((screenMode == MODE_EDIT)) {
             vm.editNote(
                 NoteItem(
                     id = noteItemId,
                     title = binding.titleEditText.text.toString(),
-                    body = binding.bodyEditText.text.toString()
+                    body = binding.bodyEditText.text.toString(),
+                    image = image
                 )
             )
-            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show()
         }
         finish()
     }
 
     private fun shareContent() {
+        val clipboardIntent = Intent()
+        clipboardIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            "" + binding.titleEditText.text + "\n" + binding.bodyEditText.text
+        )
+        clipboardIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject")
+
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TITLE, binding.titleEditText.text)
-            putExtra(Intent.EXTRA_TEXT, binding.bodyEditText.text)
+            putExtra(
+                Intent.EXTRA_TEXT,
+                "" + binding.titleEditText.text + "\n" + binding.bodyEditText.text
+            )
             type = "text/plain"
         }
 
-        val shareIntent = Intent.createChooser(sendIntent, null)
+        val shareIntent = Intent.createChooser(sendIntent, "Share via")
+        shareIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, clipboardIntent)
         startActivity(shareIntent)
     }
 
     private fun setEditText() {
         val titleET = binding.titleEditText
         titleET.requestFocus()
-        titleET.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-        titleET.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        titleET.setImeOptions(EditorInfo.IME_ACTION_NEXT)
+        titleET.setRawInputType(InputType.TYPE_CLASS_TEXT)
         WindowCompat.getInsetsController(window, binding.titleEditText)
             .show(WindowInsetsCompat.Type.ime())
     }
@@ -113,9 +137,10 @@ class NoteItemActivity : AppCompatActivity() {
         }
         if (screenMode == MODE_EDIT) {
             val noteItem = vm.getNote(noteItemId)
-//            if (noteItem.image != null){
-//                binding.image.src = ......
-//            } TODO("IMPLEMENT THIS")
+            if (noteItem.image != null) {
+                binding.imageView.setImageBitmap(noteItem.image)
+            }
+            binding.shareButton.visibility = View.VISIBLE
             binding.titleEditText.setText(noteItem.title)
             binding.bodyEditText.setText(noteItem.body)
         }
@@ -151,23 +176,23 @@ class NoteItemActivity : AppCompatActivity() {
 
 
     companion object {
-        private const val EXTRA_SCREEN_MODE = "extra_mode"
+        const val EXTRA_SCREEN_MODE = "extra_mode"
         private const val EXTRA_SHOP_ITEM_ID = "extra_shop_item_id"
         private const val MODE_EDIT = "mode_edit"
-        private const val MODE_ADD = "mode_add"
+        const val MODE_ADD = "mode_add"
         private const val MODE_UNKNOWN = ""
 
 
         fun newIntentAddItem(context: Context): Intent {
             val intent = Intent(context, NoteItemActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.putExtra(EXTRA_SCREEN_MODE, MODE_ADD)
             return intent
         }
 
         fun newIntentEditItem(context: Context, noteItemId: Int): Intent {
             val intent = Intent(context, NoteItemActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.putExtra(EXTRA_SCREEN_MODE, MODE_EDIT)
             intent.putExtra(EXTRA_SHOP_ITEM_ID, noteItemId)
             return intent

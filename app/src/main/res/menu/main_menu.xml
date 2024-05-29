@@ -4,23 +4,8 @@
 
 
     <item
-        android:id="@+id/search_view_items"
-        android:icon="@drawable/search"
-        android:title="@android:string/search_go"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="collapseActionView|ifRoom" />
-
-    <item
-        android:id="@+id/change_sorting"
-        android:title="@string/sort_by"
-        app:showAsAction="withText" />
-    <item
-        android:id="@+id/change_type_of_view"
-        android:title="@string/view_type"
-        app:showAsAction="withText" />
-    <item
-        android:id="@+id/settings"
-        android:title="@string/settings"
+        android:id="@+id/about"
+        android:title="@string/about"
         app:showAsAction="withText" />
 
 </menu>

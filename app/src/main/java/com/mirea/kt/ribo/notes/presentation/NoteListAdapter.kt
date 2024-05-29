@@ -1,6 +1,8 @@
 package com.mirea.kt.ribo.notes.presentation
 
+import android.graphics.Typeface
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.mirea.kt.ribo.notes.R
@@ -33,8 +35,23 @@ class NoteListAdapter : ListAdapter<NoteItem, NoteItemViewModel>(NoteItemDiffCal
         if (holder.itemViewType == VIEW_TYPE_WITH_IMAGE_NORMAL || holder.itemViewType == VIEW_TYPE_WITH_IMAGE_SELECTED){
             holder.image?.setImageBitmap(noteItem.image)
         }
-        holder.tvTitle.text = noteItem.title
-        holder.tvBody.text = noteItem.body
+
+        if(noteItem.title.isNotEmpty()){
+            holder.tvTitle.text = noteItem.title
+            holder.tvTitle.visibility = View.VISIBLE
+            holder.tvBody.setTypeface(null, Typeface.NORMAL)
+
+        }else{
+            holder.tvTitle.visibility = View.GONE
+            holder.tvBody.setTypeface(null, Typeface.BOLD)
+        }
+        if(noteItem.body.isNotEmpty()){
+            holder.tvBody.text = noteItem.body
+            holder.tvBody.visibility = View.VISIBLE
+        }else{
+            holder.tvBody.visibility = View.GONE
+        }
+
         holder.itemView.setOnLongClickListener {
             onNoteItemLongClickListener?.invoke(noteItem)
             true
@@ -42,8 +59,6 @@ class NoteListAdapter : ListAdapter<NoteItem, NoteItemViewModel>(NoteItemDiffCal
         holder.itemView.setOnClickListener {
             onNoteItemClickListener?.invoke(noteItem)
         }
-
-
     }
 
     override fun getItemViewType(position: Int): Int {

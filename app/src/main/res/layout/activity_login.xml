@@ -102,6 +102,7 @@
         android:padding="16dp"
         android:text="@string/sign_in"
 
+
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/informationTextView"
         app:layout_constraintEnd_toEndOf="parent"

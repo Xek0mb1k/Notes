@@ -1,12 +1,13 @@
 package com.mirea.kt.ribo.notes.presentation
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.mirea.kt.ribo.notes.databinding.ActivityLoginBinding
 import kotlinx.coroutines.CoroutineScope
@@ -20,11 +21,13 @@ class LoginActivity : AppCompatActivity() {
     private val vm by viewModel<MainViewModel>()
     private lateinit var binding: ActivityLoginBinding
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
 
         binding.secretButton.setOnClickListener {
@@ -76,11 +79,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
         val animDrawable = binding.main.background as AnimationDrawable
-        animDrawable.setEnterFadeDuration(2500)
-        animDrawable.setExitFadeDuration(5000)
+        animDrawable.setEnterFadeDuration(2000)
+        animDrawable.setExitFadeDuration(4000)
         animDrawable.start()
     }
-
 
 
     private fun checkAllFields(): Boolean {

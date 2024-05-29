@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="errorTextColor">#FF3434</color>
-    <color name="gray">#4B4B4B</color>
+    <color name="gray">#000000</color>
+    <color name="back_end_1">#480753</color>
+    <color name="back_start_1">#F2000000</color>
+    <color name="color_start_2">#000000</color>
+    <color name="color_end_2">#0A2A40</color>
+    <color name="color_end_3">#000000</color>
+    <color name="color_start_3">#29033E</color>
 </resources>
