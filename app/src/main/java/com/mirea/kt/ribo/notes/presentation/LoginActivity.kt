@@ -7,7 +7,6 @@ import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mirea.kt.ribo.notes.databinding.ActivityLoginBinding
 import kotlinx.coroutines.CoroutineScope
@@ -57,8 +56,6 @@ class LoginActivity : AppCompatActivity() {
                         )
                         if (task.result_code > 0) {
                             binding.errorMessageTextView.visibility = View.INVISIBLE
-
-                            Toast.makeText(this@LoginActivity, task.task, Toast.LENGTH_LONG).show()
 
                             binding.progressBar.visibility = View.VISIBLE
 
