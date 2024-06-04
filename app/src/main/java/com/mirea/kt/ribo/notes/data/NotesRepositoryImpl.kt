@@ -15,7 +15,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 
-class NotesRepositoryImpl(private val context: Context) : NotesRepository {
+class NotesRepositoryImpl(context: Context) : NotesRepository {
     private val dbManager = DBManager(NoteDatabaseHelper(context))
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("https://android-for-students.ru/")
@@ -32,7 +32,7 @@ class NotesRepositoryImpl(private val context: Context) : NotesRepository {
         params["g"] = studentGroup
 
         val call: Call<Task> = mireaApi.getTask(params)
-        var task = Task(emptyList(), -1, "", "", -1)
+        val task = Task(emptyList(), -1, "", "", -1)
 
         return suspendCoroutine {
             call.enqueue(object : Callback<Task> {
