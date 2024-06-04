@@ -1,11 +1,9 @@
 package com.mirea.kt.ribo.notes.data
 
-import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import com.mirea.kt.ribo.notes.domain.note.NoteItem
 
 class NoteDatabaseHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
