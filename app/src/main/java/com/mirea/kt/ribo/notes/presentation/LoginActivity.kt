@@ -1,13 +1,16 @@
 package com.mirea.kt.ribo.notes.presentation
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.drawable.AnimationDrawable
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.mirea.kt.ribo.notes.R
 import com.mirea.kt.ribo.notes.databinding.ActivityLoginBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,44 +38,52 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.signInButton.setOnClickListener {
-
-            if (checkAllFields()) {
-                binding.progressBar.visibility = View.VISIBLE
-                CoroutineScope(Dispatchers.IO).launch {
-                    val task = vm.getStudentTask(
-                        binding.loginEditText.text.toString(),
-                        binding.passwordEditText.text.toString(),
-                        STUDENT_GROUP
-                    )
-
-                    runOnUiThread {
-                        Log.d(
-                            "DEBUG_TASK", task.toString()
+            if (!checkInternetConnection(this)) {
+                binding.errorMessageTextView.text =
+                    getText(R.string.error_message_internet_connection)
+                binding.errorMessageTextView.visibility = View.VISIBLE
+            } else {
+                binding.errorMessageTextView.visibility = View.INVISIBLE
+                binding.errorMessageTextView.text = getText(R.string.error_message)
+                if (checkAllFields()) {
+                    binding.progressBar.visibility = View.VISIBLE
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val task = vm.getStudentTask(
+                            binding.loginEditText.text.toString(),
+                            binding.passwordEditText.text.toString(),
+                            STUDENT_GROUP
                         )
-                        Log.d(
-                            "DEBUG_TASK", binding.loginEditText.text.toString() + "\n" +
-                                    binding.passwordEditText.text.toString() + "\n" +
-                                    STUDENT_GROUP
-                        )
-                        if (task.result_code > 0) {
-                            binding.errorMessageTextView.visibility = View.INVISIBLE
 
-                            binding.progressBar.visibility = View.VISIBLE
+                        runOnUiThread {
+                            Log.d(
+                                "DEBUG_TASK", task.toString()
+                            )
+                            Log.d(
+                                "DEBUG_TASK", binding.loginEditText.text.toString() + "\n" +
+                                        binding.passwordEditText.text.toString() + "\n" +
+                                        STUDENT_GROUP
+                            )
+                            if (task.result_code > 0) {
+                                binding.errorMessageTextView.visibility = View.INVISIBLE
+
+                                binding.progressBar.visibility = View.VISIBLE
 
 
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                            intent.putExtra("TITLE", task.title)
-                            intent.putExtra("BODY", task.task)
-                            startActivity(intent)
-                            binding.progressBar.visibility = View.INVISIBLE
+                                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                intent.putExtra("TITLE", task.title)
+                                intent.putExtra("BODY", task.task)
+                                startActivity(intent)
+                                binding.progressBar.visibility = View.INVISIBLE
 
-                        } else {
-                            binding.progressBar.visibility = View.INVISIBLE
-                            binding.errorMessageTextView.visibility = View.VISIBLE
+                            } else {
+                                binding.progressBar.visibility = View.INVISIBLE
+                                binding.errorMessageTextView.visibility = View.VISIBLE
+                            }
                         }
                     }
                 }
             }
+
         }
 
         val animDrawable = binding.main.background as AnimationDrawable
@@ -100,6 +111,16 @@ class LoginActivity : AppCompatActivity() {
             binding.passwordEditTextInputLayout.isErrorEnabled = false
         }
         return result
+    }
+
+    @Suppress("DEPRECATION")
+    private fun checkInternetConnection(context: Context): Boolean {
+
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+
+        return networkInfo != null && networkInfo.isConnected
     }
 
     companion object {

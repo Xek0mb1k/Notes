@@ -1,4 +1,4 @@
-package com.mirea.kt.ribo.notes
+package com.mirea.kt.ribo.notes.presentation
 
 import android.content.Intent
 import android.net.Uri

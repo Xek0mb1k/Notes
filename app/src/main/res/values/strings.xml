@@ -22,6 +22,7 @@
     <string name="body">body</string>
     <string name="note_image">Note image</string>
     <string name="error_message">That login and password combination is incorrect.</string>
+    <string name="error_message_internet_connection">Check your internet connection and try again.</string>
     <string name="all_notes">Notes</string>
     <string name="arrow">arrow</string>
     <string name="about">About</string>

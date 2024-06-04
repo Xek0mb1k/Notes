@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.mirea.kt.ribo.notes.AboutActivity
 import com.mirea.kt.ribo.notes.R
 import com.mirea.kt.ribo.notes.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
