@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
-    android:layout_marginTop="0dp"
+    android:layout_marginTop="4dp"
 
-    android:layout_marginBottom="8dp"
+    android:layout_marginBottom="4dp"
     android:layout_marginEnd="8dp"
     android:elevation="16dp"
 
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="9"
+            android:maxLines="18"
             android:text="@string/body"
             android:textSize="12sp"/>
 

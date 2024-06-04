@@ -60,6 +60,21 @@
             tools:layout_editor_absoluteX="378dp"
             tools:layout_editor_absoluteY="15dp" />
 
+        <ImageButton
+            android:id="@+id/image_button"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/back_from_image_button"
+            android:contentDescription="@string/pin_this_note"
+            android:scaleType="center"
+            android:src="@drawable/outline_image_24"
+            app:tint="@color/white"
+            tools:ignore="TouchTargetSizeCheck"
+ />
+
 
 
 
@@ -130,7 +145,7 @@
                 android:minHeight="300dp"
                 android:textCursorDrawable="@drawable/cursor_drawable"
 
-                android:textSize="22sp" />
+                android:textSize="20sp" />
 
 
         </LinearLayout>
