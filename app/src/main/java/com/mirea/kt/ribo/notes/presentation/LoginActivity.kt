@@ -46,41 +46,7 @@ class LoginActivity : AppCompatActivity() {
                 binding.errorMessageTextView.visibility = View.INVISIBLE
                 binding.errorMessageTextView.text = getText(R.string.error_message)
                 if (checkAllFields()) {
-                    binding.progressBar.visibility = View.VISIBLE
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val task = vm.getStudentTask(
-                            binding.loginEditText.text.toString(),
-                            binding.passwordEditText.text.toString(),
-                            STUDENT_GROUP
-                        )
-
-                        runOnUiThread {
-                            Log.d(
-                                "DEBUG_TASK", task.toString()
-                            )
-                            Log.d(
-                                "DEBUG_TASK", binding.loginEditText.text.toString() + "\n" +
-                                        binding.passwordEditText.text.toString() + "\n" +
-                                        STUDENT_GROUP
-                            )
-                            if (task.result_code > 0) {
-                                binding.errorMessageTextView.visibility = View.INVISIBLE
-
-                                binding.progressBar.visibility = View.VISIBLE
-
-
-                                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                                intent.putExtra("TITLE", task.title)
-                                intent.putExtra("BODY", task.task)
-                                startActivity(intent)
-                                binding.progressBar.visibility = View.INVISIBLE
-
-                            } else {
-                                binding.progressBar.visibility = View.INVISIBLE
-                                binding.errorMessageTextView.visibility = View.VISIBLE
-                            }
-                        }
-                    }
+                    sendRequestAndGetResponse()
                 }
             }
 
@@ -90,6 +56,44 @@ class LoginActivity : AppCompatActivity() {
         animDrawable.setEnterFadeDuration(2000)
         animDrawable.setExitFadeDuration(4000)
         animDrawable.start()
+    }
+
+    private fun sendRequestAndGetResponse() {
+        binding.progressBar.visibility = View.VISIBLE
+        CoroutineScope(Dispatchers.IO).launch {
+            val task = vm.getStudentTask(
+                binding.loginEditText.text.toString(),
+                binding.passwordEditText.text.toString(),
+                STUDENT_GROUP
+            )
+
+            runOnUiThread {
+                Log.d(
+                    "DEBUG_TASK", task.toString()
+                )
+                Log.d(
+                    "DEBUG_TASK", binding.loginEditText.text.toString() + "\n" +
+                            binding.passwordEditText.text.toString() + "\n" +
+                            STUDENT_GROUP
+                )
+                if (task.result_code > 0) {
+                    binding.errorMessageTextView.visibility = View.INVISIBLE
+
+                    binding.progressBar.visibility = View.VISIBLE
+
+
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    intent.putExtra("TITLE", task.title)
+                    intent.putExtra("BODY", task.task)
+                    startActivity(intent)
+                    binding.progressBar.visibility = View.INVISIBLE
+
+                } else {
+                    binding.progressBar.visibility = View.INVISIBLE
+                    binding.errorMessageTextView.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
 
