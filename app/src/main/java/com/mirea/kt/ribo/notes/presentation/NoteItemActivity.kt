@@ -119,11 +119,10 @@ class NoteItemActivity : AppCompatActivity() {
     private fun saveChanged() {
         val title =
             binding.titleEditText.text.toString()
-                .trimIndent()
-                .replace("\\s+".toRegex(), " ")
+                .trim()
         val body = binding.bodyEditText.text.toString()
-            .trimIndent()
-            .replace("\\s+".toRegex(), " ")
+            .trim()
+
         if (screenMode == MODE_ADD && checkAllFieldsIsNotEmpty()) {
             vm.addNote(
                 NoteItem(
