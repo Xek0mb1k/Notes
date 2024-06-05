@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -63,10 +64,16 @@ class MainActivity : AppCompatActivity() {
         val note = getString(R.string.notes_counter, value)
         if (value == 0) {
             counter.visibility = View.GONE
+            binding.createFirstNoteTextView.startAnimation(
+                AnimationUtils.loadAnimation(
+                    applicationContext,
+                    R.anim.anim_to_visible
+                )
+            )
             binding.createFirstNoteTextView.visibility = View.VISIBLE
         } else {
             counter.visibility = View.VISIBLE
-            binding.createFirstNoteTextView.visibility = View.GONE
+            binding.createFirstNoteTextView.visibility = View.INVISIBLE
         }
         counter.text = note
     }
