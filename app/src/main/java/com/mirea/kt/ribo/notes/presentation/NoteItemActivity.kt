@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.scale
 import androidx.core.view.WindowCompat
@@ -43,6 +44,7 @@ class NoteItemActivity : AppCompatActivity() {
             image = bitmap
 
             binding.imageView.setImageBitmap(image)
+            binding.imageView.visibility = View.VISIBLE
 //            Glide.with(applicationContext).load(image).into(binding.imageView)
 
         } else {
@@ -68,7 +70,7 @@ class NoteItemActivity : AppCompatActivity() {
         setEditText()
 
         binding.backToHomeButton.setOnClickListener {
-            if (binding.titleEditText.text.toString() != "" || binding.bodyEditText.text.toString() != "" || image != null) {
+            if (checkAllFieldsIsNotEmpty()) {
                 saveChanged()
             } else finish()
         }
@@ -85,6 +87,26 @@ class NoteItemActivity : AppCompatActivity() {
             setImage()
         }
 
+        binding.imageView.setOnClickListener {
+            deleteImage()
+        }
+
+    }
+
+    private fun deleteImage() {
+        val title = "Delete image?"
+        val body = intent.getStringExtra("BODY")
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(body)
+            .setPositiveButton("Delete") { _, _ ->
+                image = null
+                binding.doneButton.visibility = View.VISIBLE
+                binding.imageView.setImageBitmap(null)
+                binding.imageView.visibility = View.GONE
+            }
+            .setNegativeButton("Cancel") { _, _ -> }
+            .show()
     }
 
     private fun setImage() {
@@ -95,26 +117,39 @@ class NoteItemActivity : AppCompatActivity() {
 
 
     private fun saveChanged() {
-        if (screenMode == MODE_ADD) {
+        val title =
+            binding.titleEditText.text.toString()
+                .trimIndent()
+                .replace("\\s+".toRegex(), " ")
+        val body = binding.bodyEditText.text.toString()
+            .trimIndent()
+            .replace("\\s+".toRegex(), " ")
+        if (screenMode == MODE_ADD && checkAllFieldsIsNotEmpty()) {
             vm.addNote(
                 NoteItem(
-                    title = binding.titleEditText.text.toString(),
-                    body = binding.bodyEditText.text.toString(),
+                    title = title,
+                    body = body,
                     image = image
                 )
             )
             Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show()
-        } else if ((screenMode == MODE_EDIT)) {
-            vm.editNote(
-                NoteItem(
-                    id = noteItemId,
-                    title = binding.titleEditText.text.toString(),
-                    body = binding.bodyEditText.text.toString(),
-                    image = image
+        } else if (screenMode == MODE_EDIT) {
+            if (title.replace(" ", "") == "" && body.replace(" ", "") == "" && image == null) {
+                vm.deleteNote(noteItemId)
+                Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show()
+            } else {
+                vm.editNote(
+                    NoteItem(
+                        id = noteItemId,
+                        title = title,
+                        body = body,
+                        image = image
+                    )
                 )
-            )
-            Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show()
+            }
         }
+
         finish()
     }
 
@@ -181,6 +216,7 @@ class NoteItemActivity : AppCompatActivity() {
             val noteItem = vm.getNote(noteItemId)
             if (noteItem.image != null) {
                 binding.imageView.setImageBitmap(noteItem.image)
+                binding.imageView.visibility = View.VISIBLE
                 image = noteItem.image
             }
             binding.shareButton.visibility = View.VISIBLE
@@ -192,30 +228,37 @@ class NoteItemActivity : AppCompatActivity() {
     private fun setEditTextListeners() {
         with(binding) {
             titleEditText.addTextChangedListener {
-                if (binding.titleEditText.text.toString() != "" || binding.bodyEditText.text.toString() != "" || image != null) {
+                if (checkAllFieldsIsNotEmpty()) {
                     doneButton.visibility = View.VISIBLE
                     shareButton.visibility = View.VISIBLE
 
                 } else {
-                    doneButton.visibility = View.GONE
                     shareButton.visibility = View.GONE
                 }
             }
 
 
             bodyEditText.addTextChangedListener {
-                if (binding.titleEditText.text.toString() != "" || binding.bodyEditText.text.toString() != "") {
+                if (checkAllFieldsIsNotEmpty()) {
                     doneButton.visibility = View.VISIBLE
                     shareButton.visibility = View.VISIBLE
 
                 } else {
-                    doneButton.visibility = View.GONE
                     shareButton.visibility = View.GONE
                 }
             }
         }
 
     }
+
+    private fun checkAllFieldsIsNotEmpty() =
+        binding.titleEditText.text.toString()
+            .trimIndent()
+            .replace("\\s+".toRegex(), " ").replace(" ", "") != "" ||
+                binding.bodyEditText.text.toString()
+                    .trimIndent()
+                    .replace("\\s+".toRegex(), " ").replace(" ", "") != "" ||
+                image != null
 
 
     private fun compressBitmap(bitmap: Bitmap, quality: Int = DEFAULT_QUALITY): Bitmap {
@@ -261,7 +304,4 @@ class NoteItemActivity : AppCompatActivity() {
             return intent
         }
     }
-
-
-//BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size).getByteCount()
 }
