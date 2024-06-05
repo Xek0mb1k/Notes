@@ -35,5 +35,19 @@
         <item name="colorSurface">#53298a</item>
 <item name="android:windowBackground">#121212</item>
         <item name="colorPrimarySurface">#4C206C</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+
+
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/gray_700</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/gray_700</item>
+        <item name="android:textSize">12sp</item>
     </style>
 </resources>
